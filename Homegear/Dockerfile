@@ -1,6 +1,6 @@
-# Taken from https://github.com/Homegear/Homegear-Docker/blob/master/rpi-stable/Dockerfile
-FROM resin/rpi-raspbian:stretch
-MAINTAINER Jan Schulz-Hofen <hassio@0.jan.sh>
+# Taken from https://github.com/yeah/hassio-addons/, refitting for my purposes
+FROM homegear/homegear:stable
+MAINTAINER Marc
 
 RUN apt-get update && apt-get -y install apt-transport-https wget ca-certificates apt-utils gnupg
 RUN wget https://homegear.eu/packages/Release.key && apt-key add Release.key && rm Release.key
