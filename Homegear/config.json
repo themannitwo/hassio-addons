@@ -1,7 +1,7 @@
 {
   "name": "Homegear",
   "version": "0.2",
-  "slug": "rpi-homegear",
+  "slug": "mwu-homegear",
   "description": "Homegear as a Hassio add-on",
   "startup": "before",
   "boot": "auto",
