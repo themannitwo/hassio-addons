@@ -1,5 +1,5 @@
 name: "Homegear"
-version: "0.2.0"
+version: "0.3.0"
 slug: "mwu_homegear"
 description: "Homegear as a Home Assistant add-on"
 arch:
