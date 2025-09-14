@@ -1,17 +1,19 @@
-# Taken from https://github.com/yeah/hassio-addons/, refitting for my purposes
+# Use the official Homegear image as base
 FROM homegear/homegear:stable
-MAINTAINER Marc
 
-RUN rm -f /etc/homegear/dh1024.pem
-RUN rm -f /etc/homegear/homegear.crt
-RUN rm -f /etc/homegear/homegear.key
-RUN cp -R /etc/homegear /etc/homegear.config
-RUN cp -R /var/lib/homegear /var/lib/homegear.data
 
+# Create a non-root user 'homegear' with UID/GID 1000 (common Home Assistant UID)
+# This user will run the Homegear process; startup script will perform setup
+RUN set -eux \
+&& groupadd -g 1000 homegear || true \
+&& useradd -u 1000 -g 1000 -m -s /bin/bash homegear || true
+
+
+# Copy start script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-RUN adduser -D -H -u 1042 homegear
-CMD /start.sh
 
-EXPOSE 2001 2002 2003
+# The container will use the start script as entrypoint
+ENTRYPOINT ["/start.sh"]
+CMD ["/sbin/tini", "--"]
