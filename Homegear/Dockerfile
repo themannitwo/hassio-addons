@@ -8,11 +8,10 @@ RUN rm -f /etc/homegear/homegear.key
 RUN cp -R /etc/homegear /etc/homegear.config
 RUN cp -R /var/lib/homegear /var/lib/homegear.data
 
-RUN adduser -D -H -u 1042 homegear
-USER homegear
-
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+RUN adduser -D -H -u 1042 homegear
 CMD /start.sh
 
 EXPOSE 2001 2002 2003
