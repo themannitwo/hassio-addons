@@ -1,0 +1,22 @@
+name: "Homegear"
+version: "0.2.0"
+slug: "mwu_homegear"
+description: "Homegear as a Home Assistant add-on"
+arch:
+  - amd64
+  - aarch64
+startup: services
+boot: auto
+privileged:
+  - SYS_ADMIN
+  - SYS_RAWIO
+map:
+  - config:rw
+  - share:rw
+ports:
+  2001/tcp: 2001
+  2002/tcp: 2002
+  2003/tcp: 2003
+devices:
+  - /dev/ttyAMA0
+  - /dev/ttyACM0
