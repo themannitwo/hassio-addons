@@ -80,4 +80,4 @@ else
 fi
 
 # Ensure proper ownership and permissions so non-root user can access
-exec su -s /bin/bash homegear -c "homegear -f"
+exec su -s /bin/bash homegear -u homegear -g homegear
