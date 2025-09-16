@@ -116,4 +116,4 @@ chown -R homegear:homegear /var/log/homegear || true
 
 # Switch to the homegear user and exec Homegear as PID 1
 log "Starting Homegear as user 'homegear'"
-exec su -s /bin/bash homegear -c "homegear -f"
+exec su -s /bin/bash homegear -c "homegear -u homegear -g homegear"
