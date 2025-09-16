@@ -87,16 +87,19 @@ chown -R 1000:1000 "$HOST_CONFIG_DIR" "$HOST_LIB_DIR" "$HOST_LOG_DIR" || true
 # Replace original container directories with symlinks to host-mounted paths
 # (remove only if they are not already symlinks)
 if [ ! -L /etc/homegear ]; then
+    log "Linking config dir to /etc/homegear"
     rm -rf /etc/homegear || true
     ln -s "$HOST_CONFIG_DIR" /etc/homegear
 fi
 
 if [ ! -L /var/lib/homegear ]; then
+    log "Linking lib dir to /var/lib/homegear"
     rm -rf /var/lib/homegear || true
     ln -s "$HOST_LIB_DIR" /var/lib/homegear
 fi
 
 if [ ! -L /var/log/homegear ]; then
+    log "Linking log dir to /var/log/homegear"
     rm -rf /var/log/homegear || true
     ln -s "$HOST_LOG_DIR" /var/log/homegear
 fi
