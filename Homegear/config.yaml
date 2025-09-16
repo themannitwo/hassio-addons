@@ -1,6 +1,6 @@
 # Add-on manifest for Home Assistant
 name: Homegear
-version: "0.6.6"
+version: "0.7.0"
 slug: mwu_homegear
 description: "Homegear add-on for Home Assistant"
 arch:
