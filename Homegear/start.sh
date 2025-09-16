@@ -84,25 +84,11 @@ fi
 log "Setting ownership on host-mounted folders to homegear:homegear"
 chown -R 1000:1000 "$HOST_CONFIG_DIR" "$HOST_LIB_DIR" "$HOST_LOG_DIR" || true
 
-# Replace original container directories with symlinks to host-mounted paths
-# (remove only if they are not already symlinks)
-if [ ! -L /etc/homegear ]; then
-    log "Linking config dir to /etc/homegear"
-    rm -rf /etc/homegear || true
-    ln -s "$HOST_CONFIG_DIR" /etc/homegear
-fi
-
-if [ ! -L /var/lib/homegear ]; then
-    log "Linking lib dir to /var/lib/homegear"
-    rm -rf /var/lib/homegear || true
-    ln -s "$HOST_LIB_DIR" /var/lib/homegear
-fi
-
-if [ ! -L /var/log/homegear ]; then
-    log "Linking log dir to /var/log/homegear"
-    rm -rf /var/log/homegear || true
-    ln -s "$HOST_LOG_DIR" /var/log/homegear
-fi
+# Bind mount host dirs over container dirs
+log "Bind-mounting host directories"
+mount --bind "$HOST_CONFIG_DIR" /etc/homegear
+mount --bind "$HOST_LIB_DIR" /var/lib/homegear
+mount --bind "$HOST_LOG_DIR" /var/log/homegear
 
 # Ensure the homegear user exists (should already be created in Dockerfile)
 if id -u homegear >/dev/null 2>&1; then
@@ -114,7 +100,6 @@ else
 fi
 
 # Make sure log directory is writable
-mkdir -p /var/log/homegear
 chown -R homegear:homegear /var/log/homegear || true
 
 # Switch to the homegear user and exec Homegear as PID 1
