@@ -80,4 +80,40 @@ else
 fi
 
 # Ensure proper ownership and permissions so non-root user can access
-exec su -s /bin/bash homegear -c "homegear -u homegear -g homegear"
+
+log "Setting ownership on host-mounted folders to homegear:homegear"
+chown -R 1000:1000 "$HOST_CONFIG_DIR" "$HOST_LIB_DIR" "$HOST_LOG_DIR" || true
+
+# Replace original container directories with symlinks to host-mounted paths
+# (remove only if they are not already symlinks)
+if [ ! -L /etc/homegear ]; then
+    rm -rf /etc/homegear || true
+    ln -s "$HOST_CONFIG_DIR" /etc/homegear
+fi
+
+if [ ! -L /var/lib/homegear ]; then
+    rm -rf /var/lib/homegear || true
+    ln -s "$HOST_LIB_DIR" /var/lib/homegear
+fi
+
+if [ ! -L /var/log/homegear ]; then
+    rm -rf /var/log/homegear || true
+    ln -s "$HOST_LOG_DIR" /var/log/homegear
+fi
+
+# Ensure the homegear user exists (should already be created in Dockerfile)
+if id -u homegear >/dev/null 2>&1; then
+    log "homegear user exists"
+else
+    log "homegear user missing — creating"
+    groupadd -g 1000 homegear || true
+    useradd -u 1000 -g 1000 -m -s /bin/bash homegear || true
+fi
+
+# Make sure log directory is writable
+mkdir -p /var/log/homegear
+chown -R homegear:homegear /var/log/homegear || true
+
+# Switch to the homegear user and exec Homegear as PID 1
+log "Starting Homegear as user 'homegear'"
+exec su -s /bin/bash homegear -c "homegear -f"
