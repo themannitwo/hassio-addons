@@ -1,6 +1,6 @@
 # Add-on manifest for Home Assistant
 name: Homegear
-version: "0.7.0"
+version: "0.8.0"
 slug: mwu_homegear
 description: "Homegear add-on for Home Assistant"
 arch:
@@ -22,7 +22,9 @@ ports:
 devices:
 - /dev/ttyAMA0
 - /dev/ttyACM0
-
+privileged:
+- SYS_ADMIN
+- SYS_RAWIO
 
 options: {}
 schema: {}
