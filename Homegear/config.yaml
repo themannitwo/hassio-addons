@@ -1,6 +1,6 @@
 # Add-on manifest for Home Assistant
 name: Homegear
-version: "0.8.1"
+version: "0.9.0"
 slug: mwu_homegear
 description: "Homegear add-on for Home Assistant"
 arch:
@@ -8,8 +8,6 @@ arch:
 - aarch64
 startup: services
 boot: auto
-# Keep apparmor enabled by default; setup does not require disabling it.
-apparmor: true
 # Expose maps for config and share so we can map host directories
 map:
 - config:rw
@@ -23,7 +21,6 @@ devices:
 - /dev/ttyAMA0
 - /dev/ttyACM0
 privileged:
-- SYS_ADMIN
 - SYS_RAWIO
 
 options: {}
