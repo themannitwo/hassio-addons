@@ -84,12 +84,6 @@ fi
 log "Setting ownership on host-mounted folders to homegear:homegear"
 chown -R 1000:1000 "$HOST_CONFIG_DIR" "$HOST_LIB_DIR" "$HOST_LOG_DIR" || true
 
-# Bind mount host dirs over container dirs
-log "Bind-mounting host directories"
-mount --bind "$HOST_CONFIG_DIR" /etc/homegear
-mount --bind "$HOST_LIB_DIR" /var/lib/homegear
-mount --bind "$HOST_LOG_DIR" /var/log/homegear
-
 # Ensure the homegear user exists (should already be created in Dockerfile)
 if id -u homegear >/dev/null 2>&1; then
     log "homegear user exists"
@@ -104,4 +98,4 @@ chown -R homegear:homegear /var/log/homegear || true
 
 # Switch to the homegear user and exec Homegear as PID 1
 log "Starting Homegear as user 'homegear'"
-exec su -s /bin/bash homegear -c "homegear -u homegear -g homegear"
+exec su -s /bin/bash homegear -c "homegear -u homegear -g homegear -c $HOST_CONFIG_DIR"
