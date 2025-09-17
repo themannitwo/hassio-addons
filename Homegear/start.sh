@@ -82,4 +82,4 @@ fi
 
 # Switch to the homegear user and exec Homegear as PID 1
 log "Starting Homegear as user 'homegear'"
-exec su -s /bin/bash homegear -c "homegear -c $HOST_CONFIG_DIR"
+exec homegear -c $HOST_CONFIG_DIR
