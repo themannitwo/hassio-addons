@@ -1,6 +1,6 @@
 # Add-on manifest for Home Assistant
 name: Homegear
-version: "0.9.2"
+version: "0.9.3"
 slug: mwu_homegear
 description: "Homegear add-on for Home Assistant"
 arch:
@@ -12,10 +12,6 @@ boot: auto
 map:
 - config:rw
 - share:rw
-ports:
-  2001/tcp: 2001
-  2002/tcp: 2002
-  2003/tcp: 2003
 # Devices (optional) -- uncomment if you need serial devices
 devices:
 - /dev/ttyAMA0
