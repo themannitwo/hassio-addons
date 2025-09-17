@@ -79,23 +79,7 @@ else
     log "$HOST_LIB_DIR is not empty — skipping initial lib population"
 fi
 
-# Ensure proper ownership and permissions so non-root user can access
-
-log "Setting ownership on host-mounted folders to homegear:homegear"
-chown -R 1000:1000 "$HOST_CONFIG_DIR" "$HOST_LIB_DIR" "$HOST_LOG_DIR" || true
-
-# Ensure the homegear user exists (should already be created in Dockerfile)
-if id -u homegear >/dev/null 2>&1; then
-    log "homegear user exists"
-else
-    log "homegear user missing — creating"
-    groupadd -g 1000 homegear || true
-    useradd -u 1000 -g 1000 -m -s /bin/bash homegear || true
-fi
-
-# Make sure log directory is writable
-chown -R homegear:homegear /var/log/homegear || true
 
 # Switch to the homegear user and exec Homegear as PID 1
 log "Starting Homegear as user 'homegear'"
-exec su -s /bin/bash homegear -c "homegear -u homegear -g homegear -c $HOST_CONFIG_DIR"
+exec su -s /bin/bash homegear -c "homegear -c $HOST_CONFIG_DIR"
